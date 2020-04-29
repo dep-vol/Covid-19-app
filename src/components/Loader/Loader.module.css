@@ -4,6 +4,12 @@
   flex: 1;
   align-items: center;
   justify-content: center;
+  align-self: center;
+  justify-self: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .lds_ripple {

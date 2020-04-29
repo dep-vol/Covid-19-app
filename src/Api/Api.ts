@@ -1,17 +1,18 @@
 import Axios from "axios";
-import {CasesItem, DailyData} from "../../types/types";
+import { CasesItem, DailyData, getCasesDataType } from "../types/types";
+
 const instance = Axios.create({baseURL:'https://covid19.mathdro.id'});
 
 type resOfGetCountryCases = Omit<{[k in keyof CasesItem]:{value:number}},'lastUpdate'>
 
 export const api = {
-    getCasesData: async ():Promise<CasesItem> => {
-        const response = await instance.get('/api');
-        const {confirmed:{value:cValue},recovered:{value:rValue},deaths:{value:dValue},lastUpdate} = await response.data;
+    getCasesData: async () => {
+        const response = await instance.get<getCasesDataType>('/api');
+        const {confirmed:{value:cValue},recovered:{value:rValue},deaths:{value:dValue},lastUpdate} = response.data;
         return {confirmed:cValue,recovered:rValue,deaths:dValue,lastUpdate};
     },
 
-    getDailyData: async ():Promise<DailyData> => {
+    getDailyData: async () => {
         const response = await instance.get('/api/daily');
         const confirmed = [] as number[];
         const deaths= [] as number[];

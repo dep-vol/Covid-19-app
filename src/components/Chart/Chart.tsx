@@ -1,6 +1,6 @@
 import React from "react";
-import {Line} from "react-chartjs-2";
-import {DailyData} from "../../types/types";
+import {Bar, Line} from "react-chartjs-2";
+import {CountryCases, DailyData} from "../../types/types";
 import {Grid, Typography} from "@material-ui/core";
 import { defaults } from 'react-chartjs-2';
 
@@ -8,10 +8,13 @@ defaults.global.defaultFontColor ='#FFF';
 
 type Props = {
     dailyData:DailyData
+    country:string
+    countryData:CountryCases
+    countrySelect:boolean
 }
 
-const ChartLine:React.FC<Props> = ({dailyData}) => {
-    const data = {
+const Chart:React.FC<Props> = ({dailyData, country, countryData, countrySelect}) => {
+    const lineData = {
         labels:dailyData.date,
         datasets:[
             {
@@ -33,19 +36,27 @@ const ChartLine:React.FC<Props> = ({dailyData}) => {
         ],
 
     };
+    const barData={
+        labels: ['confirmed', 'recovered', 'deaths'],
+        datasets: [{
+            label:'Count of people',
+            backgroundColor:['rgba(60,0,132,0.44)','rgba(24,132,50,0.56)','rgba(132,36,69,0.58)'],
+            data:[countryData.confirmed,countryData.recovered,countryData.deaths]
+        }]
+    }
 
 
     return (
         <Grid container style={{padding:'20px'}}>
             <Grid item xs={12}>
                 <Typography component='h2' variant='h3' align='center' style={{marginBottom:'20px'}}>
-                    Global statistic on today:
+                    {countrySelect ? country : "Global"} statistic on today:
                 </Typography>
-                <Line data={data} />
+                {countrySelect ? <Bar data={barData}/> : <Line data={lineData}/>}
             </Grid>
         </Grid>
 
     )
 };
 
-export default ChartLine;
+export default Chart;
