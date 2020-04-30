@@ -55,11 +55,7 @@ export type CovidState = {
     countries: string[];
     category: string;
     countrySelect: boolean;
-    country: {
-        confirmed: number | null;
-        recovered: number | null;
-        deaths: number | null;
-    };
+    country: CountryCases;
     isLoading: boolean;
     error: string;
 }
