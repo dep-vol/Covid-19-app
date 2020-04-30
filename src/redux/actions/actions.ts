@@ -1,5 +1,5 @@
 import { Action, Dispatch } from 'redux';
-import { SavedDataType, SavedPayload } from '../../types/types';
+import { SavedDataObj } from '../../types/types';
 import { api } from '../../Api/Api';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store';
@@ -16,7 +16,7 @@ export const actions = {
     setCategory: (category: string) => ({type: 'SET_CATEGORY', category} as const),
     selectCountry: () => ({type: 'SELECT_COUNTRY'} as const),
     selectGlobal: () => ({type: 'SELECT_GLOBAL'} as const),
-    saveData: (payload: SavedPayload, dataType: SavedDataType) => ({type: 'SAVE_DATA', payload, dataType} as const)
+    saveData: (savedData: SavedDataObj) => ({type: 'SAVE_DATA', savedData} as const)
 };
 
 
@@ -29,9 +29,9 @@ export const fetchData = (): ThunkAction<void, RootState, unknown, Action<string
     const casesData = await api.getCasesData();
     const dailyData = await api.getDailyData();
     const countries = await api.getCountries();
-    dispatch(actions.saveData(casesData, 'cases'));
-    dispatch(actions.saveData(dailyData, 'daily'));
-    dispatch(actions.saveData(countries, 'countries'));
+    dispatch(actions.saveData({key: 'cases', payload: casesData}));
+    dispatch(actions.saveData({key: 'daily', payload: dailyData}));
+    dispatch(actions.saveData({key: 'countries', payload: countries}));
     dispatch(actions.endLoading());
 };
 
@@ -39,6 +39,6 @@ export const fetchCountryCases = (category: string): ThunkAction<void, RootState
     const countryCasesData = await api.getCountryCases(category);
     dispatch(actions.selectCountry());
     dispatch(actions.setCategory(category));
-    dispatch(actions.saveData(countryCasesData, 'country'));
+    dispatch(actions.saveData({key: 'country', payload: countryCasesData}));
 };
 

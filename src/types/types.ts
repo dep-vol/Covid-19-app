@@ -14,9 +14,12 @@ export type DailyData = {
     date: string[];
 }
 export type CountryCases = Omit<CasesItem, 'lastUpdate'>
-export type SavedPayload = CasesItem | DailyData | string[] | CountryCases
-export type SavedDataType = 'cases' | 'daily' | 'countries' | 'country'
 
+export type SavedDataObj =
+| {key: 'cases'; payload: CasesItem}
+| {key: 'daily'; payload: DailyData}
+| {key: 'countries'; payload: string[]}
+| {key: 'country'; payload: CountryCases}
 
 /* API DATA TYPES *
 
@@ -58,4 +61,5 @@ export type CovidState = {
         deaths: number | null;
     };
     isLoading: boolean;
+    error: string;
 }
