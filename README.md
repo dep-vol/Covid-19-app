@@ -21,7 +21,9 @@
 ## Screenshots
 
 _Main_
+
 ![screen1](screen1.png)
 
 _Individual country_
+
 ![screen2](screen2.png)
